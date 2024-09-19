@@ -3,9 +3,9 @@ export const EDIT_NOTE = "EDIT_NOTE";
 export const DELETE_NOTE = "DELETE_NOTE";
 
 
-export const add_Note = (note) => ({
+export const add_Note = (note, status) => ({
     type : ADD_NOTE,
-    payload : note
+    payload : note, status
 });
 
 export const edit_Note = (note, noteId) => ({

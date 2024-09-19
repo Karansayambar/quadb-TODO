@@ -29,7 +29,7 @@ const AddTask = ({ toggle, setToggle, isEdit, setIsEdit, updateTo, updateNote })
   
 
   return (
-    <div className={`${toggle ? 'flex opacity-100' : 'hidden'} w-[300px] left-10 md:left-40 dd:left-60 lg:left-96 xl:left-[30rem] md:w-[350px] absolute  items-center justify-evenly flex-col top-20 h-[200px] bg-white rounded-md ${theme === "dark" ? "bg-black text-white" : "bg-white text-black"}`}>
+    <div className={` ${toggle  ? 'flex opacity-100' : 'hidden'} w-[300px] left-10 md:left-40 dd:left-60 lg:left-96 xl:left-[30rem] md:w-[350px] absolute  items-center justify-evenly flex-col top-20 h-[200px] bg-white rounded-md ${theme === "dark" ? "bg-black text-white" : "bg-white text-black"}`}>
       <p className="text-xl">New Note</p>
       <input
         type="text"

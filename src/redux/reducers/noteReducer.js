@@ -11,8 +11,8 @@ export const noteReducer = (state = initialState, action) => {
       const newNote = {
         note : [action.payload],
         id: state.idCounter,
-        isComplete : [action.payload]
       };
+      console.log(newNote);
       const updatedNotes = [...state.notes, newNote];
       localStorage.setItem("notes", JSON.stringify(updatedNotes));
       return {
@@ -22,9 +22,7 @@ export const noteReducer = (state = initialState, action) => {
       };
     }
     case EDIT_NOTE: {
-      console.log("we are here")
       const {note ,noteId} = action.payload;
-      console.log(noteId, note);
       const updatedNotes = state.notes.map((_n) => _n.id === noteId ? { ..._n, note } : _n );
       localStorage.setItem("notes", JSON.stringify(updatedNotes));
       console.log(updatedNotes);
