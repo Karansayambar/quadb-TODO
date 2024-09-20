@@ -19,7 +19,7 @@ function App() {
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.note.notes);
   const [displayNotes, setDisplayNotes] = useState([]);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("ALL");
   const theme = useSelector((state) => state.theme.theme);
 
   const deleteNote = (id) => {
@@ -39,14 +39,8 @@ function App() {
   };
 
   const handleSearch = () => {
-      const searchNotes = notes.filter((item) =>
-        Array.isArray(item.note) &&
-        item.note.some(noteText =>
-          typeof noteText === "string" &&
-          noteText.toLowerCase().includes(search.toLowerCase())
-        )
-      );
-      setDisplayNotes(searchNotes);
+        const searchNotes = notes.filter((item) => item.note.toLowerCase().includes(search.toLowerCase()));
+        setDisplayNotes(searchNotes);
   };
 
   const handleTheme = () => {
@@ -58,6 +52,7 @@ function App() {
   };
 
   const handleCheckboxChange = (id) => {
+    console.log(id)
     setCheckedNotes((prev) => ({
       ...prev,
       [id]: !prev[id],
@@ -65,8 +60,14 @@ function App() {
   };
 
   useEffect(() => {
-    setDisplayNotes(notes);
-  }, [notes]);
+    if(status === "ALL"){
+      setDisplayNotes(notes);
+    }else if(status === "Complete"){
+      setDisplayNotes(notes.filter((note) => checkedNotes[note.id]));
+    }else if(status === "Incomplete"){
+      setDisplayNotes(notes.filter((note) => !checkedNotes[note.id]));
+    }
+  }, [status,notes,checkedNotes]);
 
   useEffect(() => {
     setDark(theme === "dark");
@@ -119,7 +120,7 @@ function App() {
                   <p
                     style={{ textDecoration: checkedNotes[note.id] ? "line-through" : "none" , opacity : checkedNotes[note.id] ? 0.5 : 1}}
                   >
-                    {note.note} {index+1}#
+                    {note.note} {index + 1}#
                   </p>
                 </div>
                 <span className="flex gap-4">

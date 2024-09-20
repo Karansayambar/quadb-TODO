@@ -9,7 +9,7 @@ export const noteReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_NOTE: {
       const newNote = {
-        note : [action.payload],
+        note : action.payload,
         id: state.idCounter,
       };
       console.log(newNote);
