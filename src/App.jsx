@@ -14,8 +14,7 @@ function App() {
   const [isEdit, setIsEdit] = useState(false);
   const [dark, setDark] = useState(false);
   const [updateTo, setUpdateTo] = useState({});
-  const [search, setSearch] = useState("");
-  const [checkedNotes, setCheckedNotes] = useState({}); 
+  const [checkedNotes, setCheckedNotes] = useState({});
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.note.notes);
   const [displayNotes, setDisplayNotes] = useState([]);
@@ -38,9 +37,11 @@ function App() {
     setToggle(true);
   };
 
-  const handleSearch = () => {
-        const searchNotes = notes.filter((item) => item.note.toLowerCase().includes(search.toLowerCase()));
-        setDisplayNotes(searchNotes);
+  const handleSearch = (e) => {
+    const search = e.target.value;
+    const searchNotes = notes.filter((item) =>
+      item.note.toLowerCase().includes(search.toLowerCase()));
+    setDisplayNotes(searchNotes);
   };
 
   const handleTheme = () => {
@@ -52,7 +53,7 @@ function App() {
   };
 
   const handleCheckboxChange = (id) => {
-    console.log(id)
+    console.log(id);
     setCheckedNotes((prev) => ({
       ...prev,
       [id]: !prev[id],
@@ -60,14 +61,14 @@ function App() {
   };
 
   useEffect(() => {
-    if(status === "ALL"){
+    if (status === "ALL") {
       setDisplayNotes(notes);
-    }else if(status === "Complete"){
+    } else if (status === "Complete") {
       setDisplayNotes(notes.filter((note) => checkedNotes[note.id]));
-    }else if(status === "Incomplete"){
+    } else if (status === "Incomplete") {
       setDisplayNotes(notes.filter((note) => !checkedNotes[note.id]));
     }
-  }, [status,notes,checkedNotes]);
+  }, [status, notes, checkedNotes]);
 
   useEffect(() => {
     setDark(theme === "dark");
@@ -76,8 +77,8 @@ function App() {
   return (
     <div
       className={`w-full min-h-screen my-auto pt-10 flex items-center justify-start flex-col text-center p-8 ${
-        theme === "dark" ? "bg-black text-white" : "bg-white text-black" 
-      } ${isEdit && 'bg-gray-400'} ${toggle && 'bg-gray-400'}`}
+        theme === "dark" ? "bg-black text-white" : "bg-white text-black"
+      } ${isEdit && "bg-gray-400"} ${toggle && "bg-gray-400"}`}
     >
       <p className="text-2xl">TODO LIST</p>
       <div className="sm:w-[70%] md:w-[600px] flex items-center gap-2 justify-evenly box-content relative">
@@ -87,18 +88,24 @@ function App() {
             placeholder="Search Note"
             className="border-none outline-none w-[80%] bg-transparent"
             name="note"
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => handleSearch(e)}
           />
-          <button onClick={handleSearch}>
+          <button>
             <CiSearch />
           </button>
         </div>
-        <select className="bg-[#6C63FF] hover:bg-[#534CC2] rounded-md p-2 text-white outline-none" onClick={(e) => setStatus(e.target.value)}>
+        <select
+          className="bg-[#6C63FF] hover:bg-[#534CC2] rounded-md p-2 text-white outline-none"
+          onClick={(e) => setStatus(e.target.value)}
+        >
           <option className="bg-white text-[#6C63FF]">ALL</option>
           <option className="bg-white text-[#6C63FF]">Complete</option>
           <option className="bg-white text-[#6C63FF]">Incomplete</option>
         </select>
-        <button className="bg-[#6C63FF] hover:bg-[#534CC2] p-3 rounded-md text-white" onClick={handleTheme}>
+        <button
+          className="bg-[#6C63FF] hover:bg-[#534CC2] p-3 rounded-md text-white"
+          onClick={handleTheme}
+        >
           {dark ? <MdOutlineWbSunny /> : <IoMoonOutline />}
         </button>
       </div>
@@ -110,7 +117,7 @@ function App() {
                 key={note.id}
                 className="flex items-center justify-between w-[400px] p-4 text-xl border-b border-b-[#6C63FF]"
               >
-                 <div className={`flex gap-4 items-center`}>
+                <div className={`flex gap-4 items-center`}>
                   <input
                     type="checkbox"
                     checked={checkedNotes[note.id] || false}
@@ -118,7 +125,12 @@ function App() {
                     className={`w-6 h-6`}
                   />
                   <p
-                    style={{ textDecoration: checkedNotes[note.id] ? "line-through" : "none" , opacity : checkedNotes[note.id] ? 0.5 : 1}}
+                    style={{
+                      textDecoration: checkedNotes[note.id]
+                        ? "line-through"
+                        : "none",
+                      opacity: checkedNotes[note.id] ? 0.5 : 1,
+                    }}
                   >
                     {note.note} {index + 1}#
                   </p>
